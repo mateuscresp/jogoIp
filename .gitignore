@@ -1,0 +1,15 @@
+#Python(Arquivos temporários de execução)
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+#Ambientes virtuais
+env/
+venv/
+.env
+
+#Configurações do VS Code
+.idea/
+.vscode/
+.DS_Store
