@@ -1,2 +1,2 @@
 # jogoIp
-Jogo disciplina Introdução a Programação CIn - UFPE
+Projeto Final da disciplina Introdução a Programação CIn - UFPE
