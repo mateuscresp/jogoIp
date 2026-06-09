@@ -8,7 +8,7 @@ Projeto Final desenvolvido para a disciplina de Introdução à Programação.
 * Mateus Henrique - GitHub: @mateuscresp
 * Caio César - GitHub: @CaioC11
 * Gabriel dos Santos Bueno - GitHub: @SANTOSBUENO-cpu
-* [Nome do Integrante 4] - GitHub: @usuario4
+* Randell Almeida - GitHub: @Randell17
 
 ---
 
