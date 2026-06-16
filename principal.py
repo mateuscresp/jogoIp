@@ -3,8 +3,6 @@ import pygame
 from pygame.locals import *
 from sys import exit
 from codigo.utilitarios.configuracao import *
-
-# --- ADICIONADO AQUI: Importação da classe do seu item ---
 from codigo.classes.itens import ItemColetavel 
 
 #inicialização
@@ -20,11 +18,11 @@ tela = pygame.display.set_mode((LARGURA_TELA, ALTURA_TELA))
 relogio = pygame.time.Clock()
 
 
-# --- ADICIONADO AQUI: Criação do grupo e sorteio inicial do item ---
+#Criação do grupo e sorteio inicial do item
 grupo_itens = pygame.sprite.Group()
-item_teste = ItemColetavel() # Neste momento o X e Y são sorteados!
+item_teste = ItemColetavel()
 grupo_itens.add(item_teste)
-# ------------------------------------------------------------------
+
 
 
 #Loop do jogo
@@ -37,14 +35,13 @@ while True:
             pygame.quit()
             exit()
             
-    # --- ADICIONADO AQUI: Atualiza a lógica dos itens (útil para o futuro) ---
+    #Lógica dos itens (útil para o futuro)
     grupo_itens.update()
-    
     
     #pintando e atualizando tela
     tela.fill(COR_VERDE)
     
-    # --- ADICIONADO AQUI: Desenha o item sorteado por cima do fundo verde ---
+    #Desenho do item
     grupo_itens.draw(tela)
     
     pygame.display.flip()
