@@ -1,20 +1,22 @@
 import pygame
 
+
+#extremamente
+
 class Jogador:
-    def __init__(self, velocidade, stamina, posicao):
+    def __init__(self, velocidade, stamina, posicao, correndo):
         velocidade=5
 
         self.velocidade=velocidade
-
         self.stamina=stamina
-
         self.posicao=posicao
+        self.correndo=correndo
         
     def stamina_regen(self ,correndo):
         
         #Ele só recupera a stamina se nao tiver correndo
         if not correndo:
-            self.stamina += 10
+            self.stamina += 10/60
 
         #Corrige pra nao ficar acima de 100
         if self.stamina > 100:
@@ -24,13 +26,15 @@ class Jogador:
 
 
     def correr(self):
-        if self.stamina >= 20:
-            return 8, self.stamina - 20
-        return 5, self.stamina
+        if self.stamina >10/60 and pygame.key.get_pressed()[pygame.K_LSHIFT]:
+            return 8, self.stamina - 20/60 ,True
+        return 5, self.stamina , False
     
+
+
     def andando(self,posicao_ney):
         x,y = posicao_ney[0], posicao_ney[1]
-        velocidade = self.velocidade
+        velocidade,self.stamina,self.correndo = self.correr()
 
 
 
@@ -65,17 +69,18 @@ class Jogador:
 
 
         #limita as bordinhas
-        if x > 780:
-            x = 780
+        if x > 700:
+            x = 700
 
         if x < 0:
             x = 0
 
-        if y > 580:
-            y = 580
+        if y > 500:
+            y = 500
 
         if y < 0:
             y = 0
+
 
 
         return (x,y)
@@ -86,4 +91,4 @@ class Jogador:
 
 
 
-#=====================================#=====================================#=====================================#========
+#=====================================#=====================================#====================================
