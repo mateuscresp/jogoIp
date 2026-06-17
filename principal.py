@@ -24,6 +24,16 @@ item_teste = ItemColetavel()
 grupo_itens.add(item_teste)
 
 
+#Variáveis de tempo/Cronômetro
+tempo_inicio = pygame.time.get_ticks()
+segundo_anterior = -1
+tempo_bonus_acumulado = 0
+
+#Lógica de Cronômetro (adicionar bônus do colecionável)
+def tempo_bonus(bonus):
+    global tempo_bonus_acumulado
+    tempo_bonus_acumulado += bonus
+
 
 #Loop do jogo
 while True:
@@ -34,7 +44,30 @@ while True:
         if event.type == QUIT:
             pygame.quit()
             exit()
-            
+
+    #Lógica de Cronômetro (cálculo)
+    tempo_atual = pygame.time.get_ticks()
+    segundos_passados = (tempo_atual - tempo_inicio) // 1000
+    tempo_restante = TEMPO_INICIAL - segundos_passados + tempo_bonus_acumulado
+
+    #Teto máximo do tempo
+    if tempo_restante > TEMPO_MAX:
+        tempo_restante = TEMPO_MAX
+        tempo_bonus_acumulado = TEMPO_MAX - (TEMPO_INICIAL - segundos_passados)
+
+    if segundos_passados != segundo_anterior:
+        if tempo_restante > 0:
+            print(f"Tempo restante: {tempo_restante} segundos")
+        segundo_anterior = segundos_passados
+
+    #Condição de fim de jogo
+    if tempo_restante <= 0:
+        #Futuro estado de encerramento do jogo ou reinicio (a ser implementado)
+        print("Tempo esgotado! Fim de jogo.")
+        pygame.quit()
+        exit()
+
+
     #Lógica dos itens (útil para o futuro)
     grupo_itens.update()
     
