@@ -50,6 +50,7 @@ while True:
 
     #TESTE DE ANDANDO OU NÃO VERIFICACAO APENAS
     neymar.posicao=neymar.andando(neymar.posicao)
+    neymar.stamina_regen(neymar.correndo)
     tela.blit(imagem_teste,neymar.posicao)
     
     #Desenho do item
