@@ -4,6 +4,7 @@ from pygame.locals import *
 from sys import exit
 from codigo.utilitarios.configuracao import *
 from codigo.classes.itens import ItemColetavel 
+from codigo.classes.jogador import Jogador
 
 #inicialização
 pygame.init()
@@ -23,7 +24,12 @@ grupo_itens = pygame.sprite.Group()
 item_teste = ItemColetavel()
 grupo_itens.add(item_teste)
 
+#Cria o neymar na classe Jogador
+#[Velocidade, Stamina, Posicao]
+neymar = Jogador(5, 100, (0,0))
 
+#FINS DE TESTE
+imagem_teste = pygame.image.load("jogoIp/recursos/imagens/pixil-frame-0.png")
 
 #Loop do jogo
 while True:
@@ -40,6 +46,11 @@ while True:
     
     #pintando e atualizando tela
     tela.fill(COR_VERDE)
+    
+
+    #TESTE DE ANDANDO OU NÃO VERIFICACAO APENAS
+    neymar.posicao=neymar.andando(neymar.posicao)
+    tela.blit(imagem_teste,neymar.posicao)
     
     #Desenho do item
     grupo_itens.draw(tela)
