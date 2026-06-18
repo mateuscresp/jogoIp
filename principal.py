@@ -17,6 +17,9 @@ tela = pygame.display.set_mode((LARGURA_TELA, ALTURA_TELA))
 #relógio que dá ritmo ao jogo
 relogio = pygame.time.Clock()
 
+#Fonte do HUD
+fonte_hud = pygame.font.SysFont("arial", 28, bold=True)
+
 
 #Criação do grupo e sorteio inicial do item
 grupo_itens = pygame.sprite.Group()
@@ -33,6 +36,27 @@ tempo_bonus_acumulado = 0
 def tempo_bonus(bonus):
     global tempo_bonus_acumulado
     tempo_bonus_acumulado += bonus
+
+#Variáveis temporárias de placar
+pamonhas_coletadas = 0
+bandeiras_coletadas = 0
+
+#Função de desenho do HUD
+def desenhar_hud(tela, tempo_restante, pamonhas, bandeiras):
+    texto_placar=fonte_hud.render(
+        f"Pamonhas: {pamonhas} | Bandeiras: {bandeiras}",
+        True,COR_BRANCA
+    )
+    tela.blit(texto_placar, (10, 10))
+    if tempo_restante > 10:
+     cor_tempo=COR_BRANCA
+    else:
+     cor_tempo=(255, 50, 50)
+    texto_tempo=fonte_hud.render(
+        f"Tempo:{tempo_restante}s",
+        True, cor_tempo
+    )
+    tela.blit(texto_tempo, (LARGURA_TELA - texto_tempo.get_width() - 10, 10))
 
 
 #Loop do jogo
@@ -76,5 +100,8 @@ while True:
     
     #Desenho do item
     grupo_itens.draw(tela)
+
+    #Desenho do HUD
+    desenhar_hud(tela, tempo_restante, pamonhas_coletadas, bandeiras_coletadas)
     
     pygame.display.flip()
