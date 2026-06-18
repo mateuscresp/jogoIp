@@ -7,7 +7,11 @@ from codigo.classes.itens import ItemColetavel
 
 #inicialização
 pygame.init()
-
+#Música de fundo
+pygame.mixer.init()
+pygame.mixer.music.load(ASSETS["SONS"]["MUSICA_FUNDO"])
+pygame.mixer.music.set_volume(0.5)
+pygame.mixer.music.play(-1)
 
 #configurações iniciais
 pygame.display.set_caption(NOME_JOGO)
@@ -78,3 +82,4 @@ while True:
     grupo_itens.draw(tela)
     
     pygame.display.flip()
+    
