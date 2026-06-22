@@ -20,9 +20,16 @@ relogio = pygame.time.Clock()
 
 #Carregamento de imagens
 img_menu = pygame.image.load("recursos/cenarios/TELAINICIAL.png")
+img_menu = pygame.transform.scale(img_menu, (LARGURA_TELA, ALTURA_TELA))
+
 img_gameplay = pygame.image.load("recursos/cenarios/MAPA.png")
+img_gameplay = pygame.transform.scale(img_gameplay, (LARGURA_TELA, ALTURA_TELA))
+
 img_derrota = pygame.image.load("recursos/cenarios/TELADERROTA.png")
+img_derrota = pygame.transform.scale(img_derrota, (LARGURA_TELA, ALTURA_TELA))
+
 img_vitoria = pygame.image.load("recursos/cenarios/TELAVITORIA.png")
+img_vitoria = pygame.transform.scale(img_vitoria, (LARGURA_TELA, ALTURA_TELA))
 
 
 #Definição dos estados do jogo
