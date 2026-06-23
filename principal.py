@@ -3,7 +3,19 @@ import pygame
 from pygame.locals import *
 from sys import exit
 from codigo.utilitarios.configuracao import *
-from codigo.classes.itens import ItemColetavel 
+from codigo.classes.itens import Pamonha, Bandeira
+
+#NEYMAR TEMPORÁRIO PARA TESTES
+class JogadorTemporario(pygame.sprite.Sprite):
+    def __init__(self):
+        super().__init__()
+        self.image = pygame.Surface((50, 50)) 
+        self.image.fill((255, 255, 0))
+        self.rect = self.image.get_rect()
+
+    def update(self):
+        #Faz o quadrado seguir o mouse para facilitar o teste de colisão
+        self.rect.center = pygame.mouse.get_pos()
 
 #inicialização
 pygame.init()
@@ -16,6 +28,9 @@ tela = pygame.display.set_mode((LARGURA_TELA, ALTURA_TELA))
 
 #relógio que dá ritmo ao jogo
 relogio = pygame.time.Clock()
+
+#CRIANDO A VARIÁVEL DO NEYMAR
+neymar = JogadorTemporario()
 
 
 #Carregamento de imagens
@@ -43,8 +58,19 @@ estado_atual = ESTADO_MENU
 
 #Criação do grupo e sorteio inicial do item
 grupo_itens = pygame.sprite.Group()
-item_teste = ItemColetavel()
+item_teste = Pamonha()
 grupo_itens.add(item_teste)
+
+#Variáveis de controle
+pamonhas_coletadas = 0
+bandeiras_coletadas = 0
+tempo_restante = 30
+
+#Variáveis do Gatilho da Bandeira
+exibir_alerta = False
+texto_alerta = ""
+tempo_alerta_inicio = 0
+meta_pamonhas = 5
 
 
 #Variáveis de tempo/Cronômetro
@@ -76,27 +102,32 @@ while True:
                 pygame.quit()
                 exit()
             
-            #Tecla de iniciar o jogo
+
+            #Tecla de iniciar o jogo (Espaço)
             if estado_atual == ESTADO_MENU and event.key == K_SPACE:
                 estado_atual = ESTADO_GAMEPLAY
                 tempo_inicio = pygame.time.get_ticks()
                 tempo_bonus_acumulado = 0
                 segundo_anterior = -1
+                pamonhas_coletadas = 0
+                bandeiras_coletadas = 0
                 grupo_itens.empty()
-                grupo_itens.add(ItemColetavel())
-            
-            #Tecla de reiniciar o jogo:
+                grupo_itens.add(Pamonha())
+
+            #Tecla de reiniciar o jogo (R)
             elif estado_atual in [ESTADO_GAME_OVER, ESTADO_VITORIA] and event.key == K_r:
                 estado_atual = ESTADO_GAMEPLAY
                 tempo_inicio = pygame.time.get_ticks()
                 tempo_bonus_acumulado = 0
                 segundo_anterior = -1
+                pamonhas_coletadas = 0
+                bandeiras_coletadas = 0
                 grupo_itens.empty()
-                grupo_itens.add(ItemColetavel())
+                grupo_itens.add(Pamonha())
 
     if estado_atual == ESTADO_GAMEPLAY:
 
-        #Lógica de Cronômetro (cálculo)
+        #Lógica do Cronómetro
         tempo_atual = pygame.time.get_ticks()
         segundos_passados = (tempo_atual - tempo_inicio) // 1000
         tempo_restante = TEMPO_INICIAL - segundos_passados + tempo_bonus_acumulado
@@ -111,21 +142,71 @@ while True:
                 print(f"Tempo restante: {tempo_restante} segundos")
             segundo_anterior = segundos_passados
 
-        #Condição de fim de jogo
+        #Condição de Fim de Jogo por tempo
         if tempo_restante <= 0:
             estado_atual = ESTADO_GAME_OVER
 
-
-        #Lógica dos itens (útil para o futuro)
+        #Atualização dos Elementos do Jogo
         grupo_itens.update()
-    
-    #Desenho dinâmico baseado no estado atual
+        neymar.update() 
+
+        #Física de Colisões e Sistema de Pontuação/Spawn
+        itens_coletados = pygame.sprite.spritecollide(neymar, grupo_itens, True)
+        
+        for item in itens_coletados:
+            
+            if item.tipo == "pamonha": 
+                tempo_bonus_acumulado += 3
+                pamonhas_coletadas += 1
+                print(f"Pamonha coletada! Total: {pamonhas_coletadas}")
+                
+                #Gatilhos de libertação das Bandeiras por metas
+                if pamonhas_coletadas == 5:
+                    grupo_itens.add(Bandeira("Inglaterra"))
+                    exibir_alerta = True
+                    texto_alerta = "Bandeira da Inglaterra liberada!"
+                    tempo_alerta_inicio = pygame.time.get_ticks()
+                
+                elif pamonhas_coletadas == 10:
+                    grupo_itens.add(Bandeira("Alemanha"))
+                    exibir_alerta = True
+                    texto_alerta = "Bandeira da Alemanha liberada!"
+                    tempo_alerta_inicio = pygame.time.get_ticks()
+                
+                elif pamonhas_coletadas == 15:
+                    grupo_itens.add(Bandeira("Argentina"))
+                    exibir_alerta = True
+                    texto_alerta = "Bandeira da Argentina liberada!"
+                    tempo_alerta_inicio = pygame.time.get_ticks()
+                
+                elif pamonhas_coletadas == 20:
+                    grupo_itens.add(Bandeira("Espanha"))
+                    exibir_alerta = True
+                    texto_alerta = "Bandeira da Espanha liberada!"
+                    tempo_alerta_inicio = pygame.time.get_ticks()
+                
+                elif pamonhas_coletadas == 25:
+                    grupo_itens.add(Bandeira("Franca"))
+                    exibir_alerta = True
+                    texto_alerta = "Bandeira da França liberada!"
+                    tempo_alerta_inicio = pygame.time.get_ticks()
+                else:
+                    grupo_itens.add(Pamonha())
+                    
+            elif item.tipo == "bandeira":
+                tempo_bonus_acumulado += 5
+                bandeiras_coletadas += 1
+                print(f"Bandeira coletada! Total: {bandeiras_coletadas}/5")
+                grupo_itens.add(Pamonha())
+        
+    #Renderização
     if estado_atual == ESTADO_MENU:
         tela.blit(img_menu, (0, 0))
         
     elif estado_atual == ESTADO_GAMEPLAY:
         tela.blit(img_gameplay, (0, 0))
-        grupo_itens.draw(tela)
+        grupo_itens.draw(tela)      
+        tela.blit(neymar.image, neymar.rect) 
         
     elif estado_atual == ESTADO_GAME_OVER:
         tela.blit(img_derrota, (0, 0))
