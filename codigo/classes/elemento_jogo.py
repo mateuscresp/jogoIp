@@ -16,3 +16,4 @@ class ElementoJogo(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.x = coord_x
         self.rect.y = coord_y
+        self.mask = pygame.mask.from_surface(self.image)

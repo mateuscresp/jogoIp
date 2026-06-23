@@ -4,18 +4,7 @@ from pygame.locals import *
 from sys import exit
 from codigo.utilitarios.configuracao import *
 from codigo.classes.itens import Pamonha, Bandeira
-
-#NEYMAR TEMPORÁRIO PARA TESTES
-class JogadorTemporario(pygame.sprite.Sprite):
-    def __init__(self):
-        super().__init__()
-        self.image = pygame.Surface((50, 50)) 
-        self.image.fill((255, 255, 0))
-        self.rect = self.image.get_rect()
-
-    def update(self):
-        #Faz o quadrado seguir o mouse para facilitar o teste de colisão
-        self.rect.center = pygame.mouse.get_pos()
+from codigo.classes.jogador import Jogador
 
 #inicialização
 pygame.init()
@@ -28,9 +17,6 @@ tela = pygame.display.set_mode((LARGURA_TELA, ALTURA_TELA))
 
 #relógio que dá ritmo ao jogo
 relogio = pygame.time.Clock()
-
-#CRIANDO A VARIÁVEL DO NEYMAR
-neymar = JogadorTemporario()
 
 
 #Carregamento de imagens
@@ -61,6 +47,12 @@ grupo_itens = pygame.sprite.Group()
 item_teste = Pamonha()
 grupo_itens.add(item_teste)
 
+#Cria o neymar na classe Jogador
+#[Velocidade, Stamina, Posicao]
+pos_inicial_x = LARGURA_TELA // 2
+pos_inicial_y = ALTURA_TELA // 2
+neymar = Jogador(5, 100, (pos_inicial_x, pos_inicial_y), False)
+
 #Variáveis de controle
 pamonhas_coletadas = 0
 bandeiras_coletadas = 0
@@ -72,7 +64,6 @@ texto_alerta = ""
 tempo_alerta_inicio = 0
 meta_pamonhas = 5
 
-
 #Variáveis de tempo/Cronômetro
 tempo_inicio = 0
 segundo_anterior = -1
@@ -83,10 +74,12 @@ def tempo_bonus(bonus):
     global tempo_bonus_acumulado
     tempo_bonus_acumulado += bonus
 
+#Fins de teste de imagem do jogador(Neymar)
+imagem_teste = pygame.image.load("recursos/imagens/pixil-frame-0.png")
 
 #Loop do jogo
 while True:
-    #atualizando relógio
+    #Atualização do relógio
     relogio.tick(FPS)
     
     for event in pygame.event.get():
@@ -102,7 +95,6 @@ while True:
                 pygame.quit()
                 exit()
             
-
             #Tecla de iniciar o jogo (Espaço)
             if estado_atual == ESTADO_MENU and event.key == K_SPACE:
                 estado_atual = ESTADO_GAMEPLAY
@@ -125,6 +117,7 @@ while True:
                 grupo_itens.empty()
                 grupo_itens.add(Pamonha())
 
+    #Lógica da gameplay
     if estado_atual == ESTADO_GAMEPLAY:
 
         #Lógica do Cronómetro
@@ -146,21 +139,26 @@ while True:
         if tempo_restante <= 0:
             estado_atual = ESTADO_GAME_OVER
 
-        #Atualização dos Elementos do Jogo
+        #Movimentação do jogador e atualização do grupo de itens
         grupo_itens.update()
-        neymar.update() 
+        
+        #Sistema de andar e regeneração de stamina real
+        neymar.posicao = neymar.andando(neymar.posicao)
+        neymar.stamina_regen(neymar.correndo)
+        
+        #Sincronização da posição com rect para colisão
+        neymar.rect.topleft = neymar.posicao
 
         #Física de Colisões e Sistema de Pontuação/Spawn
-        itens_coletados = pygame.sprite.spritecollide(neymar, grupo_itens, True)
+        itens_coletados = pygame.sprite.spritecollide(neymar, grupo_itens, True, pygame.sprite.collide_mask)
         
         for item in itens_coletados:
-            
             if item.tipo == "pamonha": 
                 tempo_bonus_acumulado += 3
                 pamonhas_coletadas += 1
                 print(f"Pamonha coletada! Total: {pamonhas_coletadas}")
                 
-                #Gatilhos de libertação das Bandeiras por metas
+                # Gatilhos de libertação das Bandeiras por metas
                 if pamonhas_coletadas == 5:
                     grupo_itens.add(Bandeira("Inglaterra"))
                     exibir_alerta = True
@@ -190,6 +188,7 @@ while True:
                     exibir_alerta = True
                     texto_alerta = "Bandeira da França liberada!"
                     tempo_alerta_inicio = pygame.time.get_ticks()
+                
                 else:
                     grupo_itens.add(Pamonha())
                     
@@ -198,15 +197,18 @@ while True:
                 bandeiras_coletadas += 1
                 print(f"Bandeira coletada! Total: {bandeiras_coletadas}/5")
                 grupo_itens.add(Pamonha())
-        
-    #Renderização
+
+
+    #Renderização das telas
     if estado_atual == ESTADO_MENU:
         tela.blit(img_menu, (0, 0))
         
     elif estado_atual == ESTADO_GAMEPLAY:
-        tela.blit(img_gameplay, (0, 0))
+        tela.blit(img_gameplay, (0, 0)) # Fundo do mapa da develop
         grupo_itens.draw(tela)      
-        tela.blit(neymar.image, neymar.rect) 
+        
+        # Desenha o sprite do jogador usando a lógica do Mateus
+        tela.blit(imagem_teste, neymar.posicao) 
         
     elif estado_atual == ESTADO_GAME_OVER:
         tela.blit(img_derrota, (0, 0))
@@ -215,3 +217,4 @@ while True:
         tela.blit(img_vitoria, (0, 0))
     
     pygame.display.flip()
+    
