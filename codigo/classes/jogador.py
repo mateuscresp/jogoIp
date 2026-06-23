@@ -1,8 +1,7 @@
 import pygame
 
 
-#extremamente
-
+#Classe do jogador
 class Jogador:
     def __init__(self, velocidade, stamina, posicao, correndo):
         velocidade=5
@@ -11,6 +10,18 @@ class Jogador:
         self.stamina=stamina
         self.posicao=posicao
         self.correndo=correndo
+
+        #Carrega a imagem base para o jogador conseguir colidir
+        self.image = pygame.image.load("recursos/imagens/pixil-frame-0.png")
+        
+        #Cria a caixa de colisão baseada no tamanho da imagem
+        self.rect = self.image.get_rect()
+        
+        #Define a posição inicial do rect
+        self.rect.topleft = self.posicao
+        
+        #Cria a máscara para colisão pixel-perfect (sugestão do Claude)
+        self.mask = pygame.mask.from_surface(self.image)
         
     def stamina_regen(self ,correndo):
         
