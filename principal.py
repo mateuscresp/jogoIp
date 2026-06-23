@@ -84,31 +84,41 @@ while True:
                 nova_bandeira = Bandeira("Inglaterra")
                 grupo_itens.add(nova_bandeira)
                 exibir_alerta = True
-                print("Bandeira da Inglaterra liberada!")
+                texto_alerta = "Bandeira da Inglaterra liberada!"
+                tempo_alerta_inicio = pygame.time.get_ticks()
+                print(texto_alerta)
                 
             elif pamonhas_coletadas == 10:
                 nova_bandeira = Bandeira("Alemanha")
                 grupo_itens.add(nova_bandeira)
                 exibir_alerta = True
-                print("Bandeira da Alemanha liberada!")
+                texto_alerta = "Bandeira da Alemanha liberada!"
+                tempo_alerta_inicio = pygame.time.get_ticks()
+                print(texto_alerta)
                 
             elif pamonhas_coletadas == 15:
                 nova_bandeira = Bandeira("Argentina")
                 grupo_itens.add(nova_bandeira)
                 exibir_alerta = True
-                print("Bandeira da Argentina liberada!")
+                texto_alerta = "Bandeira da Argentina liberada!"
+                tempo_alerta_inicio = pygame.time.get_ticks()
+                print(texto_alerta)
                 
             elif pamonhas_coletadas == 20:
                 nova_bandeira = Bandeira("Espanha")
                 grupo_itens.add(nova_bandeira)
                 exibir_alerta = True
-                print("Bandeira da Espanha liberada!")
+                texto_alerta = "Bandeira da Espanha liberada!"
+                tempo_alerta_inicio = pygame.time.get_ticks()
+                print(texto_alerta)
                 
             elif pamonhas_coletadas == 25:
                 nova_bandeira = Bandeira("Franca")
                 grupo_itens.add(nova_bandeira)
                 exibir_alerta = True
-                print("Bandeira da França liberada!")
+                texto_alerta = "Bandeira da França liberada!"
+                tempo_alerta_inicio = pygame.time.get_ticks()
+                print(texto_alerta)
                 
             else:
                 #Se não bateu nenhum desses números redondos, nasce pamonha normal
