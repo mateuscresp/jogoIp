@@ -29,6 +29,8 @@ img_derrota = pygame.transform.scale(img_derrota, (LARGURA_TELA, ALTURA_TELA))
 img_vitoria = pygame.image.load("recursos/cenarios/TELAVITORIA.png")
 img_vitoria = pygame.transform.scale(img_vitoria, (LARGURA_TELA, ALTURA_TELA))
 
+imagem_teste = pygame.image.load("recursos/imagens/pixil-frame-0.png").convert_alpha()
+
 # Sons
 try:
     som_pamonha = pygame.mixer.Sound(ASSETS["SONS"]["COLETA_PAMONHA"])
@@ -196,7 +198,7 @@ while True:
                 tempo_bonus_acumulado += 2
                 bandeiras_coletadas += 1
                 try: 
-                    som_pamonha.play()
+                    som_bandeira.play()
                 except: 
                     pass
                 
