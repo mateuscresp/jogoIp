@@ -28,7 +28,13 @@ class Pamonha(Item):
     def __init__(self):
         super().__init__() #Roda o código da classe mãe
         self.tipo = "pamonha"
-        self.image.fill((255, 215, 0)) # Amarelo
+        try:
+            original_image = pygame.image.load("recursos/imagens/Pamonha.png")
+            self.image = pygame.transform.scale(original_image, (30, 30))
+
+        except FileNotFoundError:
+            print("Aviso: Arquivo recursos/imagens/Pamonha.png não encontrado. Usando backup.")
+            self.image.fill((255, 215, 0)) # Amarelo backup
 
 #Bandeira (Herda do Item)
 class Bandeira(Item):

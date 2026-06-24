@@ -4,7 +4,7 @@ import pygame
 #Classe do jogador
 class Jogador:
     def __init__(self, velocidade, stamina, posicao, correndo):
-        velocidade=4
+        velocidade=3
 
         self.velocidade=velocidade
         self.stamina=stamina
