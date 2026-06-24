@@ -115,14 +115,14 @@ while True:
                 pygame.quit()
                 exit()
             
-            #Tecla de iniciar o jogo (Espaço)
+            #Tecla de iniciar o jogo 
             if estado_atual == ESTADO_MENU and event.key == K_SPACE:
                 resetar_jogo()
-                # Tecla de reiniciar o jogo (R)
+                # Tecla de reiniciar o jogo 
             elif estado_atual in [ESTADO_GAME_OVER, ESTADO_VITORIA] and event.key == K_r:
                 resetar_jogo()
                 try: 
-                    pygame.mixer.music.play(-1)  # Reinicia a música de fundo global
+                    pygame.mixer.music.play(-1)  # Reinicia a música de fundo g
                 except: 
                     pass
 
@@ -164,7 +164,7 @@ while True:
         
         for item in itens_coletados:
             if item.tipo == "pamonha":
-                tempo_bonus_acumulado += 2
+                tempo_bonus_acumulado += 1.5
                 pamonhas_coletadas += 1
                 try: 
                     som_pamonha.play()
@@ -196,7 +196,7 @@ while True:
                 tempo_bonus_acumulado += 2
                 bandeiras_coletadas += 1
                 try: 
-                    som_pamonha.play()
+                    som_bandeira.play()
                 except: 
                     pass
                 
@@ -235,7 +235,7 @@ while True:
         #Alerta Central temporizado
         if exibir_alerta:
             if pygame.time.get_ticks() - tempo_alerta_inicio < 2000:
-                txt_msg = fonte_alerta.render(texto_alerta, True, (255, 223, 0))  # Amarelo Ouro
+                txt_msg = fonte_alerta.render(texto_alerta, True, (0, 0, 0))  #Pretinho básico
                 rect_msg = txt_msg.get_rect(center=(LARGURA_TELA // 2, 120))
                 tela.blit(txt_msg, rect_msg)
             else:
