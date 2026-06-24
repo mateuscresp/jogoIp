@@ -3,13 +3,15 @@ import pygame
 
 #Classe do jogador
 class Jogador:
-    def __init__(self, velocidade, stamina, posicao, correndo):
+    def __init__(self, velocidade, stamina, posicao, correndo, movimento, contador_sprites):
         velocidade=5
 
         self.velocidade=velocidade
         self.stamina=stamina
         self.posicao=posicao
         self.correndo=correndo
+        self.movimento=movimento
+        self.contador_sprites=contador_sprites
 
         #Carrega a imagem base para o jogador conseguir colidir
         self.image = pygame.image.load("recursos/imagens/pixil-frame-0.png")
@@ -53,30 +55,42 @@ class Jogador:
         if pygame.key.get_pressed()[pygame.K_w] and pygame.key.get_pressed()[pygame.K_d]:
             x += velocidade-2
             y -= velocidade-2
+            self.movimento=="DIREITA"
 
         elif pygame.key.get_pressed()[pygame.K_w] and pygame.key.get_pressed()[pygame.K_a]:
             x -= velocidade-2
             y -= velocidade-2
+            self.movimento=="ESQUERDA"
 
         elif pygame.key.get_pressed()[pygame.K_s] and pygame.key.get_pressed()[pygame.K_d]:
             x += velocidade-2
             y += velocidade-2
+            self.movimento="DIREITA"
 
         elif pygame.key.get_pressed()[pygame.K_s] and pygame.key.get_pressed()[pygame.K_a]:
             x -= velocidade-2
             y += velocidade-2
+            self.movimento="ESQUERDA"
 
         elif pygame.key.get_pressed()[pygame.K_a]:
             x -= velocidade
+            self.movimento="ESQUERDA"
 
         elif pygame.key.get_pressed()[pygame.K_d]:
             x += velocidade
+            self.movimento="DIREITA"
+            
 
         elif pygame.key.get_pressed()[pygame.K_w]:
             y -= velocidade
+            
 
         elif pygame.key.get_pressed()[pygame.K_s]:
             y += velocidade
+            
+        
+        else:
+            self.movimento="PARADO"
 
 
         #limita as bordinhas
@@ -96,7 +110,67 @@ class Jogador:
 
         return (x,y)
 
+
+
+
+
+
+    def escolha_sprite(self):
         
+        #ESCOLHA DE SPRITES
+        #contador é baseado nos frames
+
+        
+        if self.movimento == "ESQUERDA" and self.contador_sprites>15 and self.correndo:
+            if self.contador_sprites>30:
+                self.contador_sprites=0
+            self.contador_sprites+=1
+            return pygame.transform.flip(pygame.image.load("recursos/imagens/NEYCORRENDO1.png") , True, False)
+        
+        elif self.movimento == "ESQUERDA" and self.correndo:
+            self.contador_sprites+=1
+            return pygame.transform.flip(pygame.image.load("recursos/imagens/NEYCORRENDO2.png") , True, False)
+        
+        elif self.movimento == "ESQUERDA" and self.contador_sprites>15:
+            if self.contador_sprites>30:
+                self.contador_sprites=0
+            self.contador_sprites+=1
+            return pygame.transform.flip(pygame.image.load("recursos/imagens/NEYANDANDO1.png") , True, False)        
+
+        
+        elif self.movimento == "ESQUERDA":
+            self.contador_sprites+=1
+            return pygame.transform.flip(pygame.image.load("recursos/imagens/NEYANDANDO2.png") , True, False)
+    
+        
+        elif self.movimento == "DIREITA" and self.contador_sprites>15 and self.correndo:
+            if self.contador_sprites>30:
+                self.contador_sprites=0
+            self.contador_sprites+=1
+            return pygame.image.load("recursos/imagens/NEYCORRENDO1.png")
+
+        
+        elif self.movimento == "DIREITA" and self.correndo:
+            self.contador_sprites+=1
+            return pygame.image.load("recursos/imagens/NEYCORRENDO2.png")
+        
+        
+        elif self.movimento == "DIREITA" and self.contador_sprites>15:
+            if self.contador_sprites>30:
+                self.contador_sprites=0
+            self.contador_sprites+=1
+            return pygame.image.load("recursos/imagens/NEYANDANDO1.png")
+        
+        
+        elif self.movimento == "DIREITA":
+            self.contador_sprites+=1
+            return pygame.image.load("recursos/imagens/NEYANDANDO2.png")
+        
+        elif self.movimento == "PARADO":
+            self.contador_sprites=0
+            return pygame.image.load("recursos/imagens/NEYPARADO.png")
+
+
 
 
 

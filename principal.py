@@ -51,7 +51,7 @@ grupo_itens.add(item_teste)
 #[Velocidade, Stamina, Posicao]
 pos_inicial_x = LARGURA_TELA // 2
 pos_inicial_y = ALTURA_TELA // 2
-neymar = Jogador(5, 100, (pos_inicial_x, pos_inicial_y), False)
+neymar = Jogador(5, 100, (pos_inicial_x, pos_inicial_y), False, "PARADO", 0)
 
 #Variáveis de controle
 pamonhas_coletadas = 0
@@ -74,8 +74,7 @@ def tempo_bonus(bonus):
     global tempo_bonus_acumulado
     tempo_bonus_acumulado += bonus
 
-#Fins de teste de imagem do jogador(Neymar)
-imagem_teste = pygame.image.load("recursos/imagens/pixil-frame-0.png")
+
 
 #Loop do jogo
 while True:
@@ -206,9 +205,11 @@ while True:
     elif estado_atual == ESTADO_GAMEPLAY:
         tela.blit(img_gameplay, (0, 0)) # Fundo do mapa da develop
         grupo_itens.draw(tela)      
-        
+
+        #Identifica qual que é o sprite que vai ser utilizado pelo neygod🙏
+        imagem_escolhida=neymar.escolha_sprite()
         # Desenha o sprite do jogador usando a lógica do Mateus
-        tela.blit(imagem_teste, neymar.posicao) 
+        tela.blit(imagem_escolhida, neymar.posicao) 
         
     elif estado_atual == ESTADO_GAME_OVER:
         tela.blit(img_derrota, (0, 0))
