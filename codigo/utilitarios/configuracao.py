@@ -12,10 +12,10 @@ COR_BRANCA = (255, 255, 255)
 COR_PRETA = (0, 0, 0)
 COR_VERDE = (34, 139, 34)
 
-TEMPO_INICIAL = 30 #tempo concedido ao iniciar a partida
-TEMPO_MAX = 60 #teto máximo acumulável
+TEMPO_INICIAL = 10 #tempo concedido ao iniciar a partida
+TEMPO_MAX = 40 #teto máximo acumulável
 
-VELO_NEYMAR = 5 #px/frame
+VELO_NEYMAR = 4 #px/frame
 VELO_SPRINT = 8 #px/frame
 
 STAMINA_MAX = 100 #máximo de pontos de stamina
@@ -30,21 +30,34 @@ PASTA_RECURSOS = os.path.join(DIRETORIO_BASE, "recursos")
 #Dicionário organizador de recursos
 ASSETS = {
     "IMAGENS": {
-        "NEYMAR": os.path.join(PASTA_RECURSOS, "imagens", "neymar.png"),
-        "PAMONHA": os.path.join(PASTA_RECURSOS, "imagens", "pamonha.png"),
-        "TACA": os.path.join(PASTA_RECURSOS, "imagens", "taca.png"),
-        "BANDEIRA_INGLATERRA": os.path.join(PASTA_RECURSOS, "imagens", "bandeira_inglaterra.png"),
-        "BANDEIRA_ALEMANHA": os.path.join(PASTA_RECURSOS, "imagens", "bandeira_alemanha.png"),
-        "BANDEIRA_ARGENTINA": os.path.join(PASTA_RECURSOS, "imagens", "bandeira_argentina.png"),
-        "BANDEIRA_ESPANHA": os.path.join(PASTA_RECURSOS, "imagens", "bandeira_espanha.png"),
-        "BANDEIRA_FRANCA": os.path.join(PASTA_RECURSOS, "imagens", "bandeira_franca.png"),
+        #Sprites de Neymar
+        "NEYMAR_PARADO": os.path.join(PASTA_RECURSOS, "imagens", "NEYPARADO.png"),
+        "NEYMAR_ANDANDO1": os.path.join(PASTA_RECURSOS, "imagens", "NEYANDANDO1.png"),
+        "NEYMAR_ANDANDO2": os.path.join(PASTA_RECURSOS, "imagens", "NEYANDANDO2.png"),
+        "NEYMAR_CORRENDO1": os.path.join(PASTA_RECURSOS, "imagens", "NEYCORRENDO1.png"),
+        "NEYMAR_CORRENDO2": os.path.join(PASTA_RECURSOS, "imagens", "NEYCORRENDO2.png"),
+        
+        #Colecionáveis principais
+        "PAMONHA": os.path.join(PASTA_RECURSOS, "imagens", "PAMONHA.png"),
+        "TACA": os.path.join(PASTA_RECURSOS, "imagens", "TACA.png"),
+        
+        #Bandeiras
+        "BANDEIRA_INGLATERRA": os.path.join(PASTA_RECURSOS, "imagens", "INGLATERRA.png"),
+        "BANDEIRA_ALEMANHA": os.path.join(PASTA_RECURSOS, "imagens", "ALEMANHA.png"),
+        "BANDEIRA_ARGENTINA": os.path.join(PASTA_RECURSOS, "imagens", "ARGENTINA.png"),
+        "BANDEIRA_ESPANHA": os.path.join(PASTA_RECURSOS, "imagens", "ESPANHA.png"),
+        "BANDEIRA_FRANCA": os.path.join(PASTA_RECURSOS, "imagens", "FRANCA.png"),
     },
 
-    "SONS": {
+
+   "SONS": {
+        #Trilhas e efeitos sonoros
         "MUSICA_FUNDO": os.path.join(PASTA_RECURSOS, "sons", "musica_copa.mp3"),
         "COLETA_PAMONHA": os.path.join(PASTA_RECURSOS, "sons", "pamonha.wav"),
-        "COLETA_BANDEIRA": os.path.join(PASTA_RECURSOS, "sons", "bandeira.wav"),
+        "SPAWN_BANDEIRA": os.path.join(PASTA_RECURSOS, "sons", "spawn_bandeira.wav"),
         "COLETA_TACA": os.path.join(PASTA_RECURSOS, "sons", "taca.wav"),
+        "GAME_OVER": os.path.join(PASTA_RECURSOS, "sons", "game_over.wav"),
+        "VITORIA": os.path.join(PASTA_RECURSOS, "sons", "vitoria.mp3"),
     },
 
     "FONTES": {
