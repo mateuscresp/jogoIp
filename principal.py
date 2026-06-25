@@ -48,7 +48,7 @@ item_teste = Pamonha()
 grupo_itens.add(item_teste)
 
 #Cria o neymar na classe Jogador
-#[Velocidade, Stamina, Posicao]
+#[Velocidade, Stamina, Posicao, Condição Sprites, Contador Frames]
 pos_inicial_x = LARGURA_TELA // 2
 pos_inicial_y = ALTURA_TELA // 2
 neymar = Jogador(5, 100, (pos_inicial_x, pos_inicial_y), False, "PARADO", 0)

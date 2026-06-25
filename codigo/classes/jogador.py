@@ -55,38 +55,49 @@ class Jogador:
         if pygame.key.get_pressed()[pygame.K_w] and pygame.key.get_pressed()[pygame.K_d]:
             x += velocidade-2
             y -= velocidade-2
-            self.movimento=="DIREITA"
+            self.movimento="DIREITA"
+            self.movimento_anterior="DIREITA"
 
         elif pygame.key.get_pressed()[pygame.K_w] and pygame.key.get_pressed()[pygame.K_a]:
             x -= velocidade-2
             y -= velocidade-2
-            self.movimento=="ESQUERDA"
+            self.movimento="ESQUERDA"
+            self.movimento_anterior="ESQUERDA"
+
 
         elif pygame.key.get_pressed()[pygame.K_s] and pygame.key.get_pressed()[pygame.K_d]:
             x += velocidade-2
             y += velocidade-2
             self.movimento="DIREITA"
+            self.movimento_anterior="DIREITA"
+
 
         elif pygame.key.get_pressed()[pygame.K_s] and pygame.key.get_pressed()[pygame.K_a]:
             x -= velocidade-2
             y += velocidade-2
             self.movimento="ESQUERDA"
+            self.movimento_anterior="ESQUERDA"
 
         elif pygame.key.get_pressed()[pygame.K_a]:
             x -= velocidade
             self.movimento="ESQUERDA"
+            self.movimento_anterior="ESQUERDA"
 
         elif pygame.key.get_pressed()[pygame.K_d]:
             x += velocidade
             self.movimento="DIREITA"
+            self.movimento_anterior="DIREITA"
+
             
 
         elif pygame.key.get_pressed()[pygame.K_w]:
             y -= velocidade
+            self.movimento = self.movimento_anterior
             
 
         elif pygame.key.get_pressed()[pygame.K_s]:
             y += velocidade
+            self.movimento = self.movimento_anterior
             
         
         else:
