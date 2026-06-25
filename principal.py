@@ -3,7 +3,7 @@ import pygame
 from pygame.locals import *
 from sys import exit
 from codigo.utilitarios.configuracao import *
-from codigo.classes.itens import Pamonha, Bandeira
+from codigo.classes.itens import Pamonha, Bandeira, Taca
 from codigo.classes.jogador import Jogador
 
 #inicialização
@@ -202,14 +202,18 @@ while True:
                 except: 
                     pass
                 
-                #Condição de vitória 
+                # --- AQUI: A 5ª bandeira apenas invoca a Taça silenciosamente ---
                 if bandeiras_coletadas == 5:
-                    estado_atual = ESTADO_VITORIA
-                    pygame.mixer.music.stop()
-                    try: 
-                        som_vitoria.play()
-                    except: 
-                        pass
+                    grupo_itens.add(Taca())
+
+            # --- AQUI: Encostou na Taça, vence o jogo ---
+            elif item.tipo == "taca":
+                estado_atual = ESTADO_VITORIA
+                pygame.mixer.music.stop()
+                try: 
+                    som_vitoria.play()
+                except: 
+                    pass
 
     #Renderizar tela
     if estado_atual == ESTADO_MENU:

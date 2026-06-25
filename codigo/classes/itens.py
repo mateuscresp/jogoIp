@@ -43,3 +43,15 @@ class Bandeira(Item):
         self.tipo = "bandeira"
         self.pais = pais #Guarda qual país é essa bandeira
         self.image.fill((0, 0, 255)) # Azul
+
+#Taça da Copa do Mundo (Herda do Item)
+class Taca(Item):
+    def __init__(self):
+        super().__init__(largura_item=40, altura_item=50) # Fiz a taça um pouco maior que os outros itens
+        self.tipo = "taca"
+        try:
+            original_image = pygame.image.load("recursos/imagens/Taca.png")
+            self.image = pygame.transform.scale(original_image, (40, 50))
+        except FileNotFoundError:
+            print("Aviso: Arquivo recursos/imagens/Taca.png não encontrado. Usando backup.")
+            self.image.fill((218, 165, 32)) # Cor dourado
