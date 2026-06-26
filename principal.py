@@ -1,9 +1,11 @@
 #importações
+import math
+
 import pygame
 from pygame.locals import *
 from sys import exit
 from codigo.utilitarios.configuracao import *
-from codigo.classes.itens import Pamonha, Bandeira
+from codigo.classes.itens import Pamonha, Bandeira, Taca
 from codigo.classes.jogador import Jogador
 
 #inicialização
@@ -195,21 +197,36 @@ while True:
                         pass
                     
             elif item.tipo == "bandeira":
-                tempo_bonus_acumulado += 2
+                tempo_bonus_acumulado += 3
                 bandeiras_coletadas += 1
                 try: 
                     som_bandeira.play()
                 except: 
                     pass
                 
-                #Condição de vitória 
+                #A 5ª bandeira apenas invoca a Taça silenciosamente
                 if bandeiras_coletadas == 5:
-                    estado_atual = ESTADO_VITORIA
-                    pygame.mixer.music.stop()
-                    try: 
-                        som_vitoria.play()
-                    except: 
-                        pass
+                    
+                    def spawnar_taca(): 
+                        import math
+                        while True:
+                            taca = Taca()
+                            dx = taca.rect.centerx - neymar.rect.centerx
+                            dy = taca.rect.centery - neymar.rect.centery
+                            distancia = math.sqrt(dx**2 + dy**2)
+                            if distancia > 200:  #distância mínima em pixels, ajustável
+                                return taca
+                    
+                    grupo_itens.add(spawnar_taca())
+
+            #Encostou na Taça, condição de vitória
+            elif item.tipo == "taca":
+                estado_atual = ESTADO_VITORIA
+                pygame.mixer.music.stop()
+                try: 
+                    som_vitoria.play()
+                except: 
+                    pass
 
     #Renderizar tela
     if estado_atual == ESTADO_MENU:
