@@ -1,4 +1,6 @@
 #importações
+import math
+
 import pygame
 from pygame.locals import *
 from sys import exit
@@ -195,18 +197,29 @@ while True:
                         pass
                     
             elif item.tipo == "bandeira":
-                tempo_bonus_acumulado += 2
+                tempo_bonus_acumulado += 3
                 bandeiras_coletadas += 1
                 try: 
                     som_bandeira.play()
                 except: 
                     pass
                 
-                # --- AQUI: A 5ª bandeira apenas invoca a Taça silenciosamente ---
+                #A 5ª bandeira apenas invoca a Taça silenciosamente
                 if bandeiras_coletadas == 5:
-                    grupo_itens.add(Taca())
+                    
+                    def spawnar_taca(): 
+                        import math
+                        while True:
+                            taca = Taca()
+                            dx = taca.rect.centerx - neymar.rect.centerx
+                            dy = taca.rect.centery - neymar.rect.centery
+                            distancia = math.sqrt(dx**2 + dy**2)
+                            if distancia > 200:  #distância mínima em pixels, ajustável
+                                return taca
+                    
+                    grupo_itens.add(spawnar_taca())
 
-            # --- AQUI: Encostou na Taça, vence o jogo ---
+            #Encostou na Taça, condição de vitória
             elif item.tipo == "taca":
                 estado_atual = ESTADO_VITORIA
                 pygame.mixer.music.stop()
