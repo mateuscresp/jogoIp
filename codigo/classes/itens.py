@@ -31,12 +31,12 @@ class Pamonha(Item):
         super().__init__(largura_item=90, altura_item=90) #Roda o código da classe mãe
         self.tipo = "pamonha"
         try:
-            original_image = pygame.image.load(ASSETS["IMAGENS"]["PAMONHA"]).convert_alpha()
+            original_image = pygame.image.load(ASSETS["IMAGENS"]["PAMONHA1"]).convert_alpha()
             self.image = pygame.transform.scale(original_image, (90, 90))
             print("Pamonha carregada com sucesso")
 
         except FileNotFoundError:
-            print("Aviso: Arquivo recursos/imagens/Pamonha.png não encontrado. Usando backup.")
+            print("Aviso: Arquivo recursos/imagens/Pamonha1.png não encontrado. Usando backup.")
             self.image.fill((255, 215, 0)) #Amarelo backup
 
         self.rect = self.image.get_rect(topleft=self.rect.topleft)
