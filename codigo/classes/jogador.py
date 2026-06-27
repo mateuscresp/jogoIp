@@ -14,7 +14,7 @@ class Jogador:
         self.contador_sprites=contador_sprites
 
         #Carrega a imagem base para o jogador conseguir colidir
-        self.image = pygame.image.load("recursos/imagens/pixil-frame-0.png")
+        self.image = pygame.image.load("recursos/imagens/NEYPARADO.png")
         
         #Cria a caixa de colisão baseada no tamanho da imagem
         self.rect = self.image.get_rect()
@@ -28,7 +28,9 @@ class Jogador:
         #Cria o sistema de exaustão (quando corre até o limite, fica cansado por 2 segundos)
         #GRAÇAS A DEUS PODE USAR NONE PPRT NEGOCIO DIVINO
         self.exausto = None
-        
+
+        #corrige a inexistencia inicial do movimento anterior
+        self.movimento_anterior = "DIREITA"
     def stamina_regen(self ,correndo):
         
         #Ele só recupera a stamina se nao tiver correndo
@@ -118,8 +120,8 @@ class Jogador:
         if x > 700:
             x = 700
 
-        if x < 0:
-            x = 0
+        if x < -100:
+            x = 100
 
         if y > 500:
             y = 500
