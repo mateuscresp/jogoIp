@@ -197,7 +197,7 @@ while True:
                         pass
                     
             elif item.tipo == "bandeira":
-                tempo_bonus_acumulado += 3
+                tempo_bonus_acumulado += 1.75
                 bandeiras_coletadas += 1
                 try: 
                     som_bandeira.play()
