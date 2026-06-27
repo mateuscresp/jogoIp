@@ -24,6 +24,10 @@ class Jogador:
         
         #Cria a máscara para colisão pixel-perfect (sugestão do Claude)
         self.mask = pygame.mask.from_surface(self.image)
+
+        #Cria o sistema de exaustão (quando corre até o limite, fica cansado por 2 segundos)
+        #GRAÇAS A DEUS PODE USAR NONE PPRT NEGOCIO DIVINO
+        self.exausto = None
         
     def stamina_regen(self ,correndo):
         
@@ -35,11 +39,17 @@ class Jogador:
         if self.stamina > 100:
             self.stamina = 100
 
+        if self.stamina<0:
+            self.exausto = True
+        
+        if self.stamina>=20 and self.exausto:
+            self.exausto = False
+
 
 
 
     def correr(self):
-        if self.stamina >10/60 and pygame.key.get_pressed()[pygame.K_LSHIFT]:
+        if self.stamina >10/60 and pygame.key.get_pressed()[pygame.K_LSHIFT] and (not self.exausto):
             return 8, self.stamina - 20/60 ,True
         return 5, self.stamina , False
     
