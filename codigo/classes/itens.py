@@ -31,7 +31,7 @@ class Pamonha(Item):
         super().__init__(largura_item=90, altura_item=90) #Roda o código da classe mãe
         self.tipo = "pamonha"
         try:
-            original_image = pygame.image.load(ASSETS["IMAGENS"]["PAMONHA1"]).convert_alpha()
+            original_image = pygame.image.load(ASSETS["IMAGENS"]["PAMONHA"]).convert_alpha()
             self.image = pygame.transform.scale(original_image, (90, 90))
             print("Pamonha carregada com sucesso")
 
