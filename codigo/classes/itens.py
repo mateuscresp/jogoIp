@@ -36,7 +36,7 @@ class Pamonha(Item):
             print("Pamonha carregada com sucesso")
 
         except FileNotFoundError:
-            print("Aviso: Arquivo recursos/imagens/Pamonha.png não encontrado. Usando backup.")
+            print("Aviso: Arquivo recursos/imagens/Pamonha1.png não encontrado. Usando backup.")
             self.image.fill((255, 215, 0)) #Amarelo backup
 
         self.rect = self.image.get_rect(topleft=self.rect.topleft)

@@ -242,13 +242,19 @@ while True:
         except:
             tela.blit(imagem_teste, neymar.posicao)
         
-        #Interface 
-        txt_tempo = fonte_ui.render(f"Tempo: {tempo_restante}s", True, COR_PRETA)
+        #Interface
+        txt_tempo = fonte_ui.render(f"Tempo: {int(tempo_restante)}s", True, COR_PRETA)
         txt_pamonhas = fonte_ui.render(f"Pamonhas: {pamonhas_coletadas}", True, COR_PRETA)
         txt_bandeiras = fonte_ui.render(f"Bandeiras: {bandeiras_coletadas}/5", True, COR_PRETA)
         
+        #Stamina em porcentagem
+        porcentagem_stamina = int((neymar.stamina / STAMINA_MAX) * 100)
+        txt_stamina = fonte_ui.render(f"Stamina: {porcentagem_stamina}%", True, COR_VERDE)
+
+        #Textos na tela
         tela.blit(txt_tempo, (20, 20))
         tela.blit(txt_pamonhas, (20, 50))
+        tela.blit(txt_stamina, (20, 80)) # Posicionado logo abaixo das pamonhas
         tela.blit(txt_bandeiras, (LARGURA_TELA - 220, 20))
         
         #Alerta Central temporizado
