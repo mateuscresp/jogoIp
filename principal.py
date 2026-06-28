@@ -65,9 +65,14 @@ estado_atual = ESTADO_MENU
 # Inicialização do grupo de sprites e jogador
 grupo_itens = pygame.sprite.Group()
 
+
+#Cria o neymar na classe Jogador
+#[Velocidade, Stamina, Posicao, Condição Sprites, Contador Frames]
 pos_inicial_x = LARGURA_TELA // 2
 pos_inicial_y = ALTURA_TELA // 2
-neymar = Jogador(VELO_NEYMAR, STAMINA_MAX, (pos_inicial_x, pos_inicial_y), False)
+neymar = Jogador(VELO_NEYMAR, STAMINA_MAX, (pos_inicial_x, pos_inicial_y), False, "PARADO", 0)
+
+
 
 #Variáveis de controle
 pamonhas_coletadas = 0
@@ -113,7 +118,10 @@ def resetar_jogo():
     neymar.posicao = (LARGURA_TELA // 2, ALTURA_TELA // 2)
     neymar.rect.topleft = neymar.posicao
 
-# Loop principal
+
+#Loop principal
+
+
 while True:
     relogio.tick(FPS)
     
@@ -195,7 +203,7 @@ while True:
                 except: 
                     pass
                 
-                # Garante que sempre existirá uma nova pamonha ativa
+                #Garante que sempre existirá uma nova pamonha ativa
                 grupo_itens.add(Pamonha())
                 
                 # Gatilhos de liberação das Bandeiras por metas
@@ -250,14 +258,14 @@ while True:
         tela.blit(img_menu, (0, 0))
         
     elif estado_atual == ESTADO_GAMEPLAY:
+
         tela.blit(img_gameplay, (0, 0))
         grupo_itens.draw(tela)     
         
-        #Desenha o sprite do jogador
-        try:
-            tela.blit(neymar.image, neymar.posicao)
-        except:
-            tela.blit(imagem_teste, neymar.posicao)
+        #Identifica qual que é o sprite que vai ser utilizado pelo neygod
+        imagem_escolhida=neymar.escolha_sprite()
+        #Desenha o sprite do jogador usando a lógica do Mateus
+        tela.blit(imagem_escolhida, neymar.posicao) 
         
         #Interface
         txt_tempo = fonte_ui.render(f"Tempo: {int(tempo_restante)}s", True, COR_PRETA)
@@ -272,8 +280,8 @@ while True:
         #Textos na tela
         tela.blit(txt_tempo, (20, 20))
         tela.blit(txt_pamonhas, (20, 50))
-        tela.blit(txt_taca, (20, 80))       
-        tela.blit(txt_stamina, (20, 110))   
+        tela.blit(txt_taca, (20, 80))
+        tela.blit(txt_stamina, (20, 110))
         tela.blit(txt_bandeiras, (LARGURA_TELA - 220, 20))
         
         #Alerta Central temporizado
@@ -284,6 +292,7 @@ while True:
                 tela.blit(txt_msg, rect_msg)
             else:
                 exibir_alerta = False
+
         
     elif estado_atual == ESTADO_GAME_OVER:
         tela.blit(img_derrota, (0, 0))

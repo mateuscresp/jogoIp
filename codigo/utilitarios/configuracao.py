@@ -15,7 +15,7 @@ COR_VERDE = (34, 139, 34)
 TEMPO_INICIAL = 10 #tempo concedido ao iniciar a partida
 TEMPO_MAX = 20 #teto máximo acumulável
 
-VELO_NEYMAR = 3 #px/frame
+VELO_NEYMAR = 5 #px/frame
 VELO_SPRINT = 8 #px/frame
 
 STAMINA_MAX = 100 #máximo de pontos de stamina
