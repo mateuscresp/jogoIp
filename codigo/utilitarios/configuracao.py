@@ -12,8 +12,8 @@ COR_BRANCA = (255, 255, 255)
 COR_PRETA = (0, 0, 0)
 COR_VERDE = (34, 139, 34)
 
-TEMPO_INICIAL = 30 #tempo concedido ao iniciar a partida
-TEMPO_MAX = 60 #teto máximo acumulável
+TEMPO_INICIAL = 10 #tempo concedido ao iniciar a partida
+TEMPO_MAX = 20 #teto máximo acumulável
 
 VELO_NEYMAR = 5 #px/frame
 VELO_SPRINT = 8 #px/frame

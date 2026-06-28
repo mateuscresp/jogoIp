@@ -3,6 +3,7 @@ import pygame
 
 #Classe do jogador
 class Jogador:
+
     def __init__(self, velocidade, stamina, posicao, correndo, movimento, contador_sprites):
         velocidade=5
 
@@ -117,14 +118,14 @@ class Jogador:
 
 
         #limita as bordinhas
-        if x > 700:
-            x = 700
+        if x > 750:
+            x = 750
 
         if x < -100:
             x = 100
 
-        if y > 500:
-            y = 500
+        if y > 550:
+            y = 550
 
         if y < 0:
             y = 0
