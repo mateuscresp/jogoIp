@@ -12,11 +12,11 @@ COR_BRANCA = (255, 255, 255)
 COR_PRETA = (0, 0, 0)
 COR_VERDE = (34, 139, 34)
 
-TEMPO_INICIAL = 10 #Tempo concedido ao iniciar a partida
+TEMPO_INICIAL = 5 #Tempo concedido ao iniciar a partida
 TEMPO_MAX = 20 #Teto máximo acumulável
 
-VELO_NEYMAR = 5 #px/frame
-VELO_SPRINT = 8 #px/frame
+VELO_NEYMAR = 3 #px/frame
+VELO_SPRINT = 5 #px/frame
 
 STAMINA_MAX = 100 #Máximo de pontos de stamina
 CONSUMO_STAMINA = 20  #Gasto ao sprinting (20 pontos por segundo)

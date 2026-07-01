@@ -10,15 +10,13 @@ class Item(pygame.sprite.Sprite):
         super().__init__()
         
         #Lógica de Coordenadas Aleatórias (Respeitando os Limites)
-        margem = 20 #Sujeita a ajustes pós testes
+        margem = 20
         
         #Sorteia um X entre a margem esquerda e o limite máximo da direita (largura da tela - tamanho do item - margem)
-        self.rect.x = random.randint(margem, LARGURA_TELA - largura_item - margem)
+        self.sorteado_x = random.randint(margem, LARGURA_TELA - largura_item - margem)
         
         #Sorteia um Y entre a margem superior e o limite máximo de baixo (altura da tela - tamanho do item - margem)
-        self.rect.y = random.randint(margem, ALTURA_TELA - altura_item - margem)
-
-        self.mask = pygame.mask.from_surface(self.image)
+        self.sorteado_y = random.randint(margem, ALTURA_TELA - altura_item - margem)
 
 #Pamonha (Herda do Item)
 class Pamonha(Item):
@@ -33,8 +31,11 @@ class Pamonha(Item):
         except FileNotFoundError:
             print("Aviso: Arquivo recursos/imagens/Pamonha1.png não encontrado.")
 
-        self.rect = self.image.get_rect(topleft=self.rect.topleft)
+        self.rect = self.image.get_rect()
+        self.rect.x = self.sorteado_x
+        self.rect.y = self.sorteado_y
         self.mask = pygame.mask.from_surface(self.image)
+
 
 #Bandeira (Herda do Item)
 class Bandeira(Item):
@@ -50,7 +51,9 @@ class Bandeira(Item):
         except (FileNotFoundError, KeyError):
             print(f"Aviso: Arquivo recursos/imagens/{chave}.png não encontrado.")
 
-        self.rect = self.image.get_rect(topleft=self.rect.topleft)
+        self.rect = self.image.get_rect()
+        self.rect.x = self.sorteado_x
+        self.rect.y = self.sorteado_y
         self.mask = pygame.mask.from_surface(self.image)
 
 #Taça da Copa do Mundo (Herda do Item)
@@ -64,5 +67,7 @@ class Taca(Item):
         except FileNotFoundError:
             print("Aviso: Arquivo recursos/imagens/Taca.png não encontrado.")
         
-        self.rect = self.image.get_rect(topleft=self.rect.topleft)
+        self.rect = self.image.get_rect()
+        self.rect.x = self.sorteado_x
+        self.rect.y = self.sorteado_y
         self.mask = pygame.mask.from_surface(self.image)
