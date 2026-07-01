@@ -32,7 +32,7 @@ img_vitoria = pygame.image.load("recursos/cenarios/TELAVITORIA.png")
 img_vitoria = pygame.transform.scale(img_vitoria, (LARGURA_TELA, ALTURA_TELA))
 
 
-# Sons
+#Sons
 try:
     som_pamonha = pygame.mixer.Sound(ASSETS["SONS"]["COLETA_PAMONHA"])
     som_bandeira = pygame.mixer.Sound(ASSETS["SONS"]["SPAWN_BANDEIRA"])
@@ -45,7 +45,7 @@ try:
 except Exception as e:
     print(f"Aviso ao carregar sons: {e}")
 
-# Fonte
+#Fonte
 try:
     fonte_ui = pygame.font.Font(ASSETS["FONTES"]["FONTE_PRINCIPAL"], 24)
     fonte_alerta = pygame.font.Font(ASSETS["FONTES"]["FONTE_PRINCIPAL"], 36)
@@ -61,7 +61,7 @@ ESTADO_VITORIA = "VITORIA"
 
 estado_atual = ESTADO_MENU
 
-# Inicialização do grupo de sprites e jogador
+#Inicialização do grupo de sprites e jogador
 grupo_itens = pygame.sprite.Group()
 
 
@@ -163,14 +163,6 @@ while True:
             if segundos_passados != segundo_anterior:
                 segundo_anterior = segundos_passados
 
-            #Condição de Fim de Jogo por tempo
-            if tempo_restante <= 0:
-                estado_atual = ESTADO_GAME_OVER
-                pygame.mixer.music.stop()
-                try: 
-                    som_game_over.play()
-                except: 
-                    pass
 
             #Movimentação do jogador e atualização do grupo de itens
             grupo_itens.update()
@@ -292,6 +284,15 @@ while True:
         
     elif estado_atual == ESTADO_VITORIA:
         tela.blit(img_vitoria, (0, 0))
+    
+    #Condição de Fim de Jogo por tempo
+    if estado_atual == ESTADO_GAMEPLAY and not aguardando_vitoria and tempo_restante <= 0:
+        estado_atual = ESTADO_GAME_OVER
+        pygame.mixer.music.stop()
+        try:
+            som_game_over.play()
+        except:
+            pass
     
     pygame.display.flip()
     
