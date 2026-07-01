@@ -64,3 +64,19 @@ ASSETS = {
         "FONTE_PRINCIPAL": os.path.join(PASTA_RECURSOS, "fontes", "fonte_jogo.ttf"),
     }
 }
+
+#Função texto com borda para placar
+def desenhar_texto_com_borda(tela, texto, fonte, x, y, cor_texto=(255, 255, 255), cor_borda=(0, 0, 0), espessura=2):
+
+    #Desenha a borda preta em 8 direções ao redor do texto
+    offsets = [(-espessura, 0), (espessura, 0), (0, -espessura), (0, espessura),
+               (-espessura, -espessura), (espessura, -espessura),
+               (-espessura, espessura), (espessura, espessura)]
+
+    for dx, dy in offsets:
+        superficie_borda = fonte.render(texto, True, cor_borda)
+        tela.blit(superficie_borda, (x + dx, y + dy))
+
+    #Desenha o texto principal por cima
+    superficie_texto = fonte.render(texto, True, cor_texto)
+    tela.blit(superficie_texto, (x, y))
