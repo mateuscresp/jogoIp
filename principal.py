@@ -1,9 +1,11 @@
 #importações
+import math
+
 import pygame
 from pygame.locals import *
 from sys import exit
 from codigo.utilitarios.configuracao import *
-from codigo.classes.itens import Pamonha, Bandeira
+from codigo.classes.itens import Pamonha, Bandeira, Taca
 from codigo.classes.jogador import Jogador
 
 #inicialização
@@ -28,6 +30,8 @@ img_derrota = pygame.transform.scale(img_derrota, (LARGURA_TELA, ALTURA_TELA))
 
 img_vitoria = pygame.image.load("recursos/cenarios/TELAVITORIA.png")
 img_vitoria = pygame.transform.scale(img_vitoria, (LARGURA_TELA, ALTURA_TELA))
+
+imagem_teste = pygame.image.load("recursos/imagens/pixil-frame-0.png").convert_alpha()
 
 # Sons
 try:
@@ -61,13 +65,19 @@ estado_atual = ESTADO_MENU
 # Inicialização do grupo de sprites e jogador
 grupo_itens = pygame.sprite.Group()
 
+
+#Cria o neymar na classe Jogador
+#[Velocidade, Stamina, Posicao, Condição Sprites, Contador Frames]
 pos_inicial_x = LARGURA_TELA // 2
 pos_inicial_y = ALTURA_TELA // 2
-neymar = Jogador(VELO_NEYMAR, STAMINA_MAX, (pos_inicial_x, pos_inicial_y), False)
+neymar = Jogador(VELO_NEYMAR, STAMINA_MAX, (pos_inicial_x, pos_inicial_y), False, "PARADO", 0)
+
+
 
 #Variáveis de controle
 pamonhas_coletadas = 0
 bandeiras_coletadas = 0
+taca_coletada = 0  
 tempo_restante = TEMPO_INICIAL
 
 exibir_alerta = False
@@ -78,11 +88,16 @@ tempo_inicio = 0
 segundo_anterior = -1
 tempo_bonus_acumulado = 0
 
+# Delay para aparecer taça 1/ 1
+aguardando_vitoria = False
+tempo_coleta_taca = 0
+
 # Função de reset
 def resetar_jogo():
     """Reinicializa todas as variáveis do jogo para o estado inicial da gameplay."""
     global estado_atual, tempo_inicio, tempo_bonus_acumulado, segundo_anterior
-    global pamonhas_coletadas, bandeiras_coletadas, exibir_alerta
+    global pamonhas_coletadas, bandeiras_coletadas, taca_coletada, exibir_alerta
+    global aguardando_vitoria, tempo_coleta_taca
     
     estado_atual = ESTADO_GAMEPLAY
     tempo_inicio = pygame.time.get_ticks()
@@ -90,7 +105,10 @@ def resetar_jogo():
     segundo_anterior = -1
     pamonhas_coletadas = 0
     bandeiras_coletadas = 0
+    taca_coletada = 0  
     exibir_alerta = False
+    aguardando_vitoria = False
+    tempo_coleta_taca = 0
     
     # Limpa e reinicia os itens
     grupo_itens.empty()
@@ -100,7 +118,10 @@ def resetar_jogo():
     neymar.posicao = (LARGURA_TELA // 2, ALTURA_TELA // 2)
     neymar.rect.topleft = neymar.posicao
 
-# Loop principal
+
+#Loop principal
+
+
 while True:
     relogio.tick(FPS)
     
@@ -115,63 +136,74 @@ while True:
                 pygame.quit()
                 exit()
             
-            #Tecla de iniciar o jogo (Espaço)
+            #Tecla de iniciar o jogo 
             if estado_atual == ESTADO_MENU and event.key == K_SPACE:
                 resetar_jogo()
-                # Tecla de reiniciar o jogo (R)
+                # Tecla de reiniciar o jogo 
             elif estado_atual in [ESTADO_GAME_OVER, ESTADO_VITORIA] and event.key == K_r:
                 resetar_jogo()
                 try: 
-                    pygame.mixer.music.play(-1)  # Reinicia a música de fundo global
+                    pygame.mixer.music.play(-1)  
                 except: 
                     pass
 
     #Gameplay
     if estado_atual == ESTADO_GAMEPLAY:
 
-        #Lógica do Cronómetro
-        tempo_atual = pygame.time.get_ticks()
-        segundos_passados = (tempo_atual - tempo_inicio) // 1000
-        tempo_restante = TEMPO_INICIAL - segundos_passados + tempo_bonus_acumulado
+        # Lógica do Cronômetro (só roda se não estiver congelado esperando a tela de vitória)
+        if not aguardando_vitoria:
+            tempo_atual = pygame.time.get_ticks()
+            segundos_passados = (tempo_atual - tempo_inicio) // 1000
+            tempo_restante = TEMPO_INICIAL - segundos_passados + tempo_bonus_acumulado
 
-        #Teto máximo do tempo
-        if tempo_restante > TEMPO_MAX:
-            tempo_restante = TEMPO_MAX
-            tempo_bonus_acumulado = TEMPO_MAX - (TEMPO_INICIAL - segundos_passados)
+            #Teto máximo do tempo
+            if tempo_restante > TEMPO_MAX:
+                tempo_restante = TEMPO_MAX
+                tempo_bonus_acumulado = TEMPO_MAX - (TEMPO_INICIAL - segundos_passados)
 
-        if segundos_passados != segundo_anterior:
-            segundo_anterior = segundos_passados
+            if segundos_passados != segundo_anterior:
+                segundo_anterior = segundos_passados
 
-        #Condição de Fim de Jogo por tempo
-        if tempo_restante <= 0:
-            estado_atual = ESTADO_GAME_OVER
-            pygame.mixer.music.stop()
-            try: 
-                som_game_over.play()
-            except: 
-                pass
+            #Condição de Fim de Jogo por tempo
+            if tempo_restante <= 0:
+                estado_atual = ESTADO_GAME_OVER
+                pygame.mixer.music.stop()
+                try: 
+                    som_game_over.play()
+                except: 
+                    pass
 
-        #Movimentação do jogador e atualização do grupo de itens
-        grupo_itens.update()
-        neymar.posicao = neymar.andando(neymar.posicao)
-        neymar.stamina_regen(neymar.correndo)
-        
-        #Sincronização da posição com rect para colisão
-        neymar.rect.topleft = neymar.posicao
+            #Movimentação do jogador e atualização do grupo de itens
+            grupo_itens.update()
+            neymar.posicao = neymar.andando(neymar.posicao)
+            neymar.stamina_regen(neymar.correndo)
+            
+            #Sincronização da posição com rect para colisão
+            neymar.rect.topleft = neymar.posicao
+
+        # Se já coletou a taça, verifica se já passou 1 segundo (1000 milissegundos) para mudar de tela
+        else:
+            if pygame.time.get_ticks() - tempo_coleta_taca >= 1000:
+                estado_atual = ESTADO_VITORIA
+                pygame.mixer.music.stop()
+                try: 
+                    som_vitoria.play()
+                except: 
+                    pass
 
         #Física de Colisões e Sistema de Pontuação/Spawn
         itens_coletados = pygame.sprite.spritecollide(neymar, grupo_itens, True, pygame.sprite.collide_mask)
         
         for item in itens_coletados:
             if item.tipo == "pamonha":
-                tempo_bonus_acumulado += 2
+                tempo_bonus_acumulado += 1.5
                 pamonhas_coletadas += 1
                 try: 
                     som_pamonha.play()
                 except: 
                     pass
                 
-                # Garante que sempre existirá uma nova pamonha ativa
+                #Garante que sempre existirá uma nova pamonha ativa
                 grupo_itens.add(Pamonha())
                 
                 # Gatilhos de liberação das Bandeiras por metas
@@ -193,53 +225,74 @@ while True:
                         pass
                     
             elif item.tipo == "bandeira":
-                tempo_bonus_acumulado += 2
+                tempo_bonus_acumulado += 1.75
                 bandeiras_coletadas += 1
                 try: 
-                    som_pamonha.play()
+                    som_bandeira.play()
                 except: 
                     pass
                 
-                #Condição de vitória 
+                #A 5ª bandeira apenas invoca a Taça silenciosamente
                 if bandeiras_coletadas == 5:
-                    estado_atual = ESTADO_VITORIA
-                    pygame.mixer.music.stop()
-                    try: 
-                        som_vitoria.play()
-                    except: 
-                        pass
+                    
+                    def spawnar_taca(): 
+                        import math
+                        while True:
+                            taca = Taca()
+                            dx = taca.rect.centerx - neymar.rect.centerx
+                            dy = taca.rect.centery - neymar.rect.centery
+                            distancia = math.sqrt(dx**2 + dy**2)
+                            if distancia > 200:  
+                                return taca
+                    
+                    grupo_itens.add(spawnar_taca())
+
+            #Toca na taça
+            elif item.tipo == "taca":
+                taca_coletada = 1  #Muda para 1/1 
+                aguardando_vitoria = True  #Espera para aparecer na tela
+                tempo_coleta_taca = pygame.time.get_ticks()  #Salva a coleta
 
     #Renderizar tela
     if estado_atual == ESTADO_MENU:
         tela.blit(img_menu, (0, 0))
         
     elif estado_atual == ESTADO_GAMEPLAY:
+
         tela.blit(img_gameplay, (0, 0))
         grupo_itens.draw(tela)     
         
-        #Desenha o sprite do jogador
-        try:
-            tela.blit(neymar.image, neymar.posicao)
-        except:
-            tela.blit(imagem_teste, neymar.posicao)
+        #Identifica qual que é o sprite que vai ser utilizado pelo neygod
+        imagem_escolhida=neymar.escolha_sprite()
+        #Desenha o sprite do jogador usando a lógica do Mateus
+        tela.blit(imagem_escolhida, neymar.posicao) 
         
-        #Interface 
-        txt_tempo = fonte_ui.render(f"Tempo: {tempo_restante}s", True, COR_PRETA)
+        #Interface
+        txt_tempo = fonte_ui.render(f"Tempo: {int(tempo_restante)}s", True, COR_PRETA)
         txt_pamonhas = fonte_ui.render(f"Pamonhas: {pamonhas_coletadas}", True, COR_PRETA)
+        txt_taca = fonte_ui.render(f"Taça: {taca_coletada}/1", True, COR_PRETA) 
         txt_bandeiras = fonte_ui.render(f"Bandeiras: {bandeiras_coletadas}/5", True, COR_PRETA)
         
+        #Stamina em porcentagem
+        porcentagem_stamina = int((neymar.stamina / STAMINA_MAX) * 100)
+        txt_stamina = fonte_ui.render(f"Stamina: {porcentagem_stamina}%", True, COR_VERDE)
+
+        #Textos na tela
         tela.blit(txt_tempo, (20, 20))
         tela.blit(txt_pamonhas, (20, 50))
+        tela.blit(txt_taca, (20, 80))
+        tela.blit(txt_stamina, (20, 110))
         tela.blit(txt_bandeiras, (LARGURA_TELA - 220, 20))
         
         #Alerta Central temporizado
         if exibir_alerta:
             if pygame.time.get_ticks() - tempo_alerta_inicio < 2000:
-                txt_msg = fonte_alerta.render(texto_alerta, True, (255, 223, 0))  # Amarelo Ouro
+                txt_msg = fonte_alerta.render(texto_alerta, True, (0, 0, 0))  
                 rect_msg = txt_msg.get_rect(center=(LARGURA_TELA // 2, 120))
                 tela.blit(txt_msg, rect_msg)
             else:
                 exibir_alerta = False
+
         
     elif estado_atual == ESTADO_GAME_OVER:
         tela.blit(img_derrota, (0, 0))
