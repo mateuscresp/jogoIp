@@ -128,5 +128,5 @@ O projeto foi conduzido ao longo de 4 semanas, com responsabilidades organizadas
   <img src="recursos/imagens/MENU.png" width="250" alt="Tela de Menu">
   <img src="recursos/imagens/GAMEPLAY.png" width="250" alt="Gameplay">
   <img src="recursos/imagens/VITORIA.png" width="250" alt="Tela de Vitória">
-  <img src="recursos/IMAGENS/DERROTA.png" width="250" alt="Tela de Derrota">
+  <img src="recursos/imagens/DERROTA.png" width="250" alt="Tela de Derrota">
 </p>
