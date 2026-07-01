@@ -119,3 +119,14 @@ O projeto foi conduzido ao longo de 4 semanas, com responsabilidades organizadas
 - **Organização como Pilar Essencial:** A estruturação prévia do projeto, aliada a uma modularização limpa do código e uma boa divisão de diretórios, mitiga impactos de refatoração e facilita drasticamente o entendimento do software como um todo.
 - **Clareza na Comunicação:** Uma comunicação ativa e clara entre os membros poupa tempo de retrabalho, alinha expectativas técnicas e confere uma produtividade e eficiência nitidamente maiores ao grupo.
 - **Evolução Prática Real:** Aprender conceitos teóricos complexos (como POO e gerenciamento de memória) aplicando-os diretamente na prática e na resolução de problemas do mundo real gera uma curva de evolução acadêmica e profissional imensamente superior se comparada ao estudo puramente passivo e teórico.
+
+## 📸 Demonstração
+
+### Telas do Jogo
+
+<p align="center">
+  <img src="recursos/imagens/MENU.png" width="250" alt="Tela de Menu">
+  <img src="recursos/imagens/GAMEPLAY.png" width="250" alt="Gameplay">
+  <img src="recursos/imagens/VITORIA.png" width="250" alt="Tela de Vitória">
+  <img src="recursos/IMAGENS/DERROTA.png" width="250" alt="Tela de Derrota">
+</p>

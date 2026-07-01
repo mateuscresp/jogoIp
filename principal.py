@@ -31,7 +31,6 @@ img_derrota = pygame.transform.scale(img_derrota, (LARGURA_TELA, ALTURA_TELA))
 img_vitoria = pygame.image.load("recursos/cenarios/TELAVITORIA.png")
 img_vitoria = pygame.transform.scale(img_vitoria, (LARGURA_TELA, ALTURA_TELA))
 
-imagem_teste = pygame.image.load("recursos/imagens/pixil-frame-0.png").convert_alpha()
 
 # Sons
 try:
@@ -267,22 +266,16 @@ while True:
         #Desenha o sprite do jogador usando a lógica do Mateus
         tela.blit(imagem_escolhida, neymar.posicao) 
         
-        #Interface
-        txt_tempo = fonte_ui.render(f"Tempo: {int(tempo_restante)}s", True, COR_PRETA)
-        txt_pamonhas = fonte_ui.render(f"Pamonhas: {pamonhas_coletadas}", True, COR_PRETA)
-        txt_taca = fonte_ui.render(f"Taça: {taca_coletada}/1", True, COR_PRETA) 
-        txt_bandeiras = fonte_ui.render(f"Bandeiras: {bandeiras_coletadas}/5", True, COR_PRETA)
+        #Interface e textos na tela
+        desenhar_texto_com_borda(tela, f"Tempo: {int(tempo_restante)}s", fonte_ui, 20, 20)
+        desenhar_texto_com_borda(tela, f"Pamonhas: {pamonhas_coletadas}", fonte_ui, 20, 50)
+        desenhar_texto_com_borda(tela, f"Taça: {taca_coletada}/1", fonte_ui, 20, 80)
+        desenhar_texto_com_borda(tela, f"Bandeiras: {bandeiras_coletadas}/5", fonte_ui, LARGURA_TELA - 220, 20)
+
         
         #Stamina em porcentagem
         porcentagem_stamina = int((neymar.stamina / STAMINA_MAX) * 100)
-        txt_stamina = fonte_ui.render(f"Stamina: {porcentagem_stamina}%", True, COR_VERDE)
-
-        #Textos na tela
-        tela.blit(txt_tempo, (20, 20))
-        tela.blit(txt_pamonhas, (20, 50))
-        tela.blit(txt_taca, (20, 80))
-        tela.blit(txt_stamina, (20, 110))
-        tela.blit(txt_bandeiras, (LARGURA_TELA - 220, 20))
+        desenhar_texto_com_borda(tela, f"Stamina: {porcentagem_stamina}%", fonte_ui, 20, 110)
         
         #Alerta Central temporizado
         if exibir_alerta:
@@ -301,3 +294,4 @@ while True:
         tela.blit(img_vitoria, (0, 0))
     
     pygame.display.flip()
+    
