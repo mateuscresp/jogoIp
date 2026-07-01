@@ -1,6 +1,5 @@
-#importações
+#Importações
 import math
-
 import pygame
 from pygame.locals import *
 from sys import exit
@@ -8,14 +7,14 @@ from codigo.utilitarios.configuracao import *
 from codigo.classes.itens import Pamonha, Bandeira, Taca
 from codigo.classes.jogador import Jogador
 
-#inicialização
+#Inicialização
 pygame.init()
 pygame.mixer.init()  
 
 pygame.display.set_caption(NOME_JOGO)
 tela = pygame.display.set_mode((LARGURA_TELA, ALTURA_TELA))
 
-#relógio que dá ritmo ao jogo
+#Relógio que dá ritmo ao jogo
 relogio = pygame.time.Clock()
 
 #Carregamento de imagens
@@ -87,11 +86,11 @@ tempo_inicio = 0
 segundo_anterior = -1
 tempo_bonus_acumulado = 0
 
-# Delay para aparecer taça 1/ 1
+#Delay para aparecer taça 1/ 1
 aguardando_vitoria = False
 tempo_coleta_taca = 0
 
-# Função de reset
+#Função de reset
 def resetar_jogo():
     """Reinicializa todas as variáveis do jogo para o estado inicial da gameplay."""
     global estado_atual, tempo_inicio, tempo_bonus_acumulado, segundo_anterior
@@ -109,11 +108,11 @@ def resetar_jogo():
     aguardando_vitoria = False
     tempo_coleta_taca = 0
     
-    # Limpa e reinicia os itens
+    #Limpa e reinicia os itens
     grupo_itens.empty()
     grupo_itens.add(Pamonha())
     
-    # Reseta o jogador para o centro da tela
+    #Reseta o jogador para o centro da tela
     neymar.posicao = (LARGURA_TELA // 2, ALTURA_TELA // 2)
     neymar.rect.topleft = neymar.posicao
 
@@ -124,7 +123,7 @@ def resetar_jogo():
 while True:
     relogio.tick(FPS)
     
-    # --- EVENTOS ---
+    #Eventos
     for event in pygame.event.get():
         if event.type == QUIT:
             pygame.quit()
@@ -138,7 +137,8 @@ while True:
             #Tecla de iniciar o jogo 
             if estado_atual == ESTADO_MENU and event.key == K_SPACE:
                 resetar_jogo()
-                # Tecla de reiniciar o jogo 
+            
+            #Tecla de reiniciar o jogo 
             elif estado_atual in [ESTADO_GAME_OVER, ESTADO_VITORIA] and event.key == K_r:
                 resetar_jogo()
                 try: 
@@ -149,7 +149,7 @@ while True:
     #Gameplay
     if estado_atual == ESTADO_GAMEPLAY:
 
-        # Lógica do Cronômetro (só roda se não estiver congelado esperando a tela de vitória)
+        #Lógica do Cronômetro (só roda se não estiver congelado esperando a tela de vitória)
         if not aguardando_vitoria:
             tempo_atual = pygame.time.get_ticks()
             segundos_passados = (tempo_atual - tempo_inicio) // 1000
@@ -172,7 +172,7 @@ while True:
             #Sincronização da posição com rect para colisão
             neymar.rect.topleft = neymar.posicao
 
-        # Se já coletou a taça, verifica se já passou 1 segundo (1000 milissegundos) para mudar de tela
+        #Se já coletou a taça, verifica se já passou 1 segundo (1000 milissegundos) para mudar de tela
         else:
             if pygame.time.get_ticks() - tempo_coleta_taca >= 1000:
                 estado_atual = ESTADO_VITORIA
@@ -197,7 +197,7 @@ while True:
                 #Garante que sempre existirá uma nova pamonha ativa
                 grupo_itens.add(Pamonha())
                 
-                # Gatilhos de liberação das Bandeiras por metas
+                #Gatilhos de liberação das Bandeiras por metas
                 bandeira_liberada = None
                 if pamonhas_coletadas == 5: bandeira_liberada = "Inglaterra"
                 elif pamonhas_coletadas == 10: bandeira_liberada = "Alemanha"

@@ -1,8 +1,8 @@
-#importação
+#Importação
 import pygame
 
 
-#classe mãe
+#Classe mãe
 class ElementoJogo(pygame.sprite.Sprite):
     def __init__(self, caminho_imagem, coord_x, coord_y):
         super().__init__()

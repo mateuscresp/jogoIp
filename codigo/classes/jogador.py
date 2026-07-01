@@ -23,14 +23,13 @@ class Jogador:
         #Define a posição inicial do rect
         self.rect.topleft = self.posicao
         
-        #Cria a máscara para colisão pixel-perfect (sugestão do Claude)
+        #Cria a máscara para colisão pixel-perfect
         self.mask = pygame.mask.from_surface(self.image)
 
         #Cria o sistema de exaustão (quando corre até o limite, fica cansado por 2 segundos)
-        #GRAÇAS A DEUS PODE USAR NONE PPRT NEGOCIO DIVINO
         self.exausto = None
 
-        #corrige a inexistencia inicial do movimento anterior
+        #Corrige a inexistencia inicial do movimento anterior
         self.movimento_anterior = "DIREITA"
     def stamina_regen(self ,correndo):
         
@@ -64,7 +63,7 @@ class Jogador:
 
 
 
-    #torre de ifs e elifs dos movimentos (fiz assim pq o movimento ficar mais rapido na diagonal é paia tlgd)
+    #Torre de ifs e elifs dos movimentos
         if pygame.key.get_pressed()[pygame.K_w] and pygame.key.get_pressed()[pygame.K_d]:
             x += velocidade-2
             y -= velocidade-2
@@ -117,7 +116,7 @@ class Jogador:
             self.movimento="PARADO"
 
 
-        #limita as bordinhas
+        #Limita as bordinhas
         if x > 650:
             x = 650
 
@@ -193,11 +192,3 @@ class Jogador:
         elif self.movimento == "PARADO":
             self.contador_sprites=0
             return pygame.image.load("recursos/imagens/NEYPARADO.png")
-
-
-
-
-
-
-
-#=====================================#=====================================#====================================

@@ -9,11 +9,6 @@ class Item(pygame.sprite.Sprite):
     def __init__(self, largura_item=30, altura_item=30):
         super().__init__()
         
-        #Quadrado amarelo temporário para testes
-        self.image = pygame.Surface((largura_item, altura_item), pygame.SRCALPHA)
-        self.image.fill((255, 215, 0))
-        self.rect = self.image.get_rect()
-        
         #Lógica de Coordenadas Aleatórias (Respeitando os Limites)
         margem = 20 #Sujeita a ajustes pós testes
         
@@ -28,7 +23,7 @@ class Item(pygame.sprite.Sprite):
 #Pamonha (Herda do Item)
 class Pamonha(Item):
     def __init__(self):
-        super().__init__(largura_item=90, altura_item=90) #Roda o código da classe mãe
+        super().__init__(largura_item=90, altura_item=90)
         self.tipo = "pamonha"
         try:
             original_image = pygame.image.load(ASSETS["IMAGENS"]["PAMONHA"]).convert_alpha()
@@ -36,8 +31,7 @@ class Pamonha(Item):
             print("Pamonha carregada com sucesso")
 
         except FileNotFoundError:
-            print("Aviso: Arquivo recursos/imagens/Pamonha1.png não encontrado. Usando backup.")
-            self.image.fill((255, 215, 0)) #Amarelo backup
+            print("Aviso: Arquivo recursos/imagens/Pamonha1.png não encontrado.")
 
         self.rect = self.image.get_rect(topleft=self.rect.topleft)
         self.mask = pygame.mask.from_surface(self.image)
@@ -46,7 +40,7 @@ class Pamonha(Item):
 class Bandeira(Item):
 
     def __init__(self, pais):
-        super().__init__(largura_item=110, altura_item=110) #Roda o código da classe mãe
+        super().__init__(largura_item=110, altura_item=110)
         self.tipo = "bandeira"
         self.pais = pais #Guarda qual país é essa bandeira
         try:
@@ -54,7 +48,8 @@ class Bandeira(Item):
             original_image = pygame.image.load(ASSETS["IMAGENS"][chave]).convert_alpha()
             self.image = pygame.transform.scale(original_image, (110, 110))
         except (FileNotFoundError, KeyError):
-            self.image.fill((0, 0, 255))
+            print(f"Aviso: Arquivo recursos/imagens/{chave}.png não encontrado.")
+
         self.rect = self.image.get_rect(topleft=self.rect.topleft)
         self.mask = pygame.mask.from_surface(self.image)
 
@@ -67,8 +62,7 @@ class Taca(Item):
             original_image = pygame.image.load(ASSETS["IMAGENS"]["TACA"]).convert_alpha()
             self.image = pygame.transform.scale(original_image, (120, 120))
         except FileNotFoundError:
-            print("Aviso: Arquivo recursos/imagens/Taca.png não encontrado. Usando backup.")
-            self.image.fill((218, 165, 32)) #Cor dourado
+            print("Aviso: Arquivo recursos/imagens/Taca.png não encontrado.")
         
         self.rect = self.image.get_rect(topleft=self.rect.topleft)
         self.mask = pygame.mask.from_surface(self.image)
