@@ -118,14 +118,14 @@ class Jogador:
 
 
         #limita as bordinhas
-        if x > 750:
-            x = 750
+        if x > 650:
+            x = 650
 
-        if x < -100:
-            x = 100
+        if x < -50:
+            x = -50
 
-        if y > 550:
-            y = 550
+        if y > 480:
+            y = 480
 
         if y < 0:
             y = 0
