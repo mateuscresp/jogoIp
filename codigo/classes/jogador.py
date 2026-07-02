@@ -144,8 +144,8 @@ class Jogador:
         #contador é baseado nos frames
 
         
-        if self.movimento == "ESQUERDA" and self.contador_sprites>15 and self.correndo:
-            if self.contador_sprites>30:
+        if self.movimento == "ESQUERDA" and self.contador_sprites>20 and self.correndo:
+            if self.contador_sprites>40:
                 self.contador_sprites=0
             self.contador_sprites+=1
             return pygame.transform.flip(pygame.image.load("recursos/imagens/NEYCORRENDO1.png") , True, False)
@@ -154,8 +154,8 @@ class Jogador:
             self.contador_sprites+=1
             return pygame.transform.flip(pygame.image.load("recursos/imagens/NEYCORRENDO2.png") , True, False)
         
-        elif self.movimento == "ESQUERDA" and self.contador_sprites>15:
-            if self.contador_sprites>30:
+        elif self.movimento == "ESQUERDA" and self.contador_sprites>20:
+            if self.contador_sprites>40:
                 self.contador_sprites=0
             self.contador_sprites+=1
             return pygame.transform.flip(pygame.image.load("recursos/imagens/NEYANDANDO1.png") , True, False)        
@@ -166,8 +166,8 @@ class Jogador:
             return pygame.transform.flip(pygame.image.load("recursos/imagens/NEYANDANDO2.png") , True, False)
     
         
-        elif self.movimento == "DIREITA" and self.contador_sprites>15 and self.correndo:
-            if self.contador_sprites>30:
+        elif self.movimento == "DIREITA" and self.contador_sprites>20 and self.correndo:
+            if self.contador_sprites>40:
                 self.contador_sprites=0
             self.contador_sprites+=1
             return pygame.image.load("recursos/imagens/NEYCORRENDO1.png")
@@ -178,8 +178,8 @@ class Jogador:
             return pygame.image.load("recursos/imagens/NEYCORRENDO2.png")
         
         
-        elif self.movimento == "DIREITA" and self.contador_sprites>15:
-            if self.contador_sprites>30:
+        elif self.movimento == "DIREITA" and self.contador_sprites>20:
+            if self.contador_sprites>40:
                 self.contador_sprites=0
             self.contador_sprites+=1
             return pygame.image.load("recursos/imagens/NEYANDANDO1.png")
